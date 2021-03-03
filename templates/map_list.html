@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="kr">
+<head>
+
+    <!-- Webpage Title -->
+    <title>Home | 우리동네 TMI</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+    <style>
+        .hero-head {
+            margin-top: 20px;
+        }
+        .navbar-item {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .body-flex {
+            display:flex;
+        }
+        .map-box {
+            flex:1;
+
+        }
+        .review-box {
+            flex:1;
+            margin: auto;
+        }
+
+
+    </style>
+
+    <script>
+    </script>
+
+</head>
+<body>
+    <section class="hero is-primary is-fullheight">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
+                            <h1 style="margin-left:10px">우리동네 TMI</h1>
+                        </a>
+                        <span class="navbar-burger" data-target="navbarMenuHeroA">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+                    </div>
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item is-active">
+                                Home
+                            </a>
+                            <a class="navbar-item">
+                                구경하기
+                            </a>
+                            <a class="navbar-item">
+                                TMI 풀기
+                            </a>
+                            <!--<span class="navbar-item">
+                  <a class="button is-primary is-inverted">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Download</span>
+                  </a>
+                </span>-->
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <section class="section body-flex">
+                    <div class="map-box">
+                        <h1>지도</h1>
+                    </div>
+
+                    <div class="section review-box">
+                        <h1>리뷰(Ajax 통해 불러오기)</h1>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+
+        <!-- Hero footer: will stick at the bottom -->
+        <!--<div class="hero-foot">
+            <nav class="tabs">
+                <div class="container">
+                    <ul>
+                        <li class="is-active"><a>Overview</a></li>
+                        <li><a>Modifiers</a></li>
+                        <li><a>Grid</a></li>
+                        <li><a>Elements</a></li>
+                        <li><a>Components</a></li>
+                        <li><a>Layout</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>-->
+    </section>
+</body>
+</html>
