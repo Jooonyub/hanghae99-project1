@@ -100,7 +100,7 @@
                 },
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        alert("로그인중")
+                        alert("로그인되었습니다.")
                         $.cookie('mytoken', response['token'], {path: '/'});
                         window.location.replace("/")
                     } else {
@@ -221,13 +221,13 @@
 <body>
     <section class="hero is-primary is-fullheight">
         <!-- Hero head: will stick at the top -->
-        <div class="hero-head">
+        <div class="hero-head" style="backgroung-color:limegreen">
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item">
                             <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
-                            <h1 style="margin-left:10px">우리동네 TMI</h1>
+                            <p class="navbar-item" style="margin-left:5px">우리동네 TMI</p>
                         </a>
                         <span class="navbar-burger" data-target="navbarMenuHeroA">
                 <span></span>
@@ -237,15 +237,20 @@
                     </div>
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
-                            <a class="navbar-item is-active">
+                            <a class="navbar-item is-active" href="/">
                                 Home
                             </a>
-                            <a class="navbar-item">
+                            <a class="navbar-item" href="/map_list">
                                 구경하기
                             </a>
-                            <a class="navbar-item">
+                            <a class="navbar-item" href="/map_list">
                                 TMI 풀기
                             </a>
+                            {% if user %}
+                                <button class="navbar-item button sign_out" style="background-color:lightgreen" onclick="sign_out()">
+                                    Sign Out
+                                </button>
+                            {% endif %}
                             <!--<span class="navbar-item">
                   <a class="button is-primary is-inverted">
                     <span class="icon">
@@ -374,11 +379,6 @@
 
 
 
-                <p class="title">
-                    Title
-                </p>
-                <p class="subtitle">
-                    Subtitle
                 </p>
             </div>
         </div>

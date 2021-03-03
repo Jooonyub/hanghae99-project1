@@ -27,8 +27,9 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"id": payload["id"]})
-        return render_template('index.html', user=user_info["username"])
+        #user_info = db.user.find_one({"id": payload["id"]})
+        #return render_template('index.html', user=user_info["username"])
+        return render_template('index.html', user=payload["id"])
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -57,7 +58,8 @@ def sign_in():
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         #페이로드에 대한 암호화(jwt)
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        #token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
