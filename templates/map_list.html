@@ -64,13 +64,42 @@
     </style>
 
     <script>
+        function makePlaceList() {
+            let place = $('#placename').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                tpye: "POST",
+                url: "/map_list",
+                data: {placename_give:place, comment_give:comment},
+                success: function(response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                }
+            })
+        }
+
+        function showPlaceList() {
+            $.ajax({
+                tpye: "GET",
+                url: "/map_list",
+                data: {},
+                success: function(response) {
+                    let all_lists = response['all_places']
+                    for (let i = 0; i < all_lists.length; i++)
+                        let placename = all_lists[i]['placename']
+                        let districtname = all_lists[i]['districtname']
+                        let comment = all_lists[i]['comment']
+                        let user = all_lists[i]['user_id']
+                }
+            })
+        }
     </script>
 
 </head>
 <body>
     <section class="hero is-primary is-fullheight">
         <!-- Hero head: will stick at the top -->
-        <div class="hero-head" style="backgroung-color:limegreen">
+        <div class="hero-head" style="background-color:limegreen">
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
@@ -131,15 +160,15 @@
                             <article class="media">
                                 <div class="media-left">
                                     <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                                        <img src=../static/image_pics/image_placeholder.png" alt="Image">
                                     </figure>
                                 </div>
                                 <div class="media-content">
                                     <div class="content">
                                         <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
+                                            <strong id="user">아이디</strong>  <small>작성시</small>
                                             <br>
-                                            코멘트
+                                            <div id="comment">코멘트</div>
                                         </p>
                                     </div>
                                 </div>

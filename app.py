@@ -90,18 +90,45 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-'''
-#프로필 업데이트(일단 x. 프로필이미지 기능 사용하지 않기때)
-@app.route('/update_profile', methods=['POST'])
-def save_img():
+#포스트 기능(form:장소이름, 코멘트)
+@app.route('/map_list/write', methods=['POST'])
+def posting():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 프로필 업데이트
-        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
+
+        # 포스팅하기
+        place_receive = request.form['placename_give']
+        comment_receive = request.form['comment_give']
+        user_receive = payload['id']
+        #districtname_receive = 지역이름 어떻게 가져올지 생각하
+
+        doc = {
+            'user' : user_receive,
+            'districtname' : districtname_receive,
+            'placename' : place_receive,
+            'comment' : comment_receive,
+            'datetime' : datetime_receive
+        }
+        db.placeinfo.insert_one(doc)
+
+        return jsonify({"result": "success", 'msg': '포스팅 성공'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-'''
+
+#포스트 목록 가져오기(장소이름, 코멘트, 장소 geodata, 사용자 ID)
+@app.route("/map_list/<district>", methods=['GET'])
+def get_posts(district):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        # 포스팅 목록 받아오기
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        all_lists = list(db.placeinfo.find({'districtname':district}, {'_id': False}))
+
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists, 'datetime':datetime})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 '''
 #포스트 기능(form:장소이름, 코멘트)
 @app.route('/posting', methods=['POST'])
