@@ -9,6 +9,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!--favicon-->
+    <link rel="shortcut icon" href="../static/tmi_favicon.png"/>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <!-- Font Awesome CSS -->
@@ -100,19 +102,26 @@
                 }
             })
         }
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃되었습니다.');
+            /*setTimeout("location.reload()", 2000); 2초 후 새로고침*/
+            window.location.href="/login";
+        }
     </script>
 
 </head>
 <body>
     <section class="hero is-primary is-fullheight">
         <!-- Hero head: will stick at the top -->
-        <div class="hero-head" style="background-color:limegreen">
+        <div class="hero-head has-background-warning">
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item">
                             <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
-                            <p class="navbar-item" style="margin-left:5px">우리동네 TMI</p>
+                            <p class="navbar-item has-text-grey" style="margin-left:5px">우리동네 TMI</p>
                         </a>
                         <span class="navbar-burger" data-target="navbarMenuHeroA">
                 <span></span>
@@ -120,32 +129,48 @@
                 <span></span>
               </span>
                     </div>
-                    <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div id="navbarMenuHeroA" class="navbar-menu has-text-grey">
                         <div class="navbar-end">
-                            <a class="navbar-item is-active" href="/">
+                            <a class="navbar-item" href="/">
                                 Home
                             </a>
+                            <div class="navbar-item is-active has-dropdown is-hoverable has-text-grey">
+                                <a class="navbar-link">
+                                    구경하기
+                                </a>
+
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item district" id="의왕" href="/map_list/의왕">
+                                        의왕
+                                    </a>
+                                    <a class="navbar-item district" id="송파" href="/map_list/송파">
+                                        송파
+                                    </a>
+                                </div>
+                            </div>
+                            <!--
                             <a class="navbar-item" href="/map_list/의왕">
                                 의왕 구경하기
                             </a>
                             <a class="navbar-item" href="/map_list/송파">
                                 송파 구경하기
                             </a>
+                            -->
                             <a class="navbar-item" href="/map_list/write">
                                 TMI 풀기
                             </a>
-                            <button class="navbar-item button sign_out" style="background-color:lightgreen" onclick="sign_out()">
-                                Sign Out
-                            </button>
 
-                            <!--<span class="navbar-item">
-                  <a class="button is-primary is-inverted">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Download</span>
-                  </a>
-                </span>-->
+                            <div class="navbar-end">
+                                <div class="navbar-item">
+                                    <div class="buttons" onclick="sign_out()">
+                                        <a class="button is-primary">
+                                            <strong>Sign Out</strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -290,8 +315,7 @@
             <article class="media">
                 <figure class="media-left" style="align-self: center">
                     <a class="image is-32x32" href="#">
-                        <img class="is-rounded" src="{{ url_for(" static",
-                        filename="profile_placeholder.png") }}">
+                        <img class="is-rounded" src="{{ url_for('static', filename='profile_placeholder.png') }}">
                     </a>
                 </figure>
                 <div class="media-content">

@@ -9,6 +9,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!--favicon-->
+    <link rel="shortcut icon" href="../static/tmi_favicon.png"/>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <!-- Font Awesome CSS -->
@@ -21,7 +23,7 @@
 
     <style>
         .hero-head {
-            margin-top: 20px;
+            /*height: 60px;*/
         }
         .navbar-item {
             font-size: 20px;
@@ -30,7 +32,7 @@
         .body-flex {
             display:flex;
         }
-        .login-box {
+        .nonpicture-box {
             flex:1;
 
         }
@@ -42,25 +44,50 @@
             font-size: 96px;
             font-weight: bold;
             text-align: center;
+            margin: 150px 0px 0px 0px;
             line-height: 100px;
         }
-        .box {
-            top: 100px;
+        .login-box {
+            margin-top: 50px;
+        }
+        .picture-box {
+            flex:1;
+
+            margin: 0px 0px 0px 200px;
+            /*background-color: green;*/
         }
 
-        .place-img {
+
+        .picture-box > .places > a {
             width: 360px;
             height: 360px;
-            margin:auto;
+
+            border-radius: 360px;
+            border: 3px /*solid*/;
+            margin: 10px;
+
+            /*background-color: white;*/
+
+            display: flex;
+
+            /*align-items: center;*/
+            justify-content: center;
+
+            text-decoration: none;
+
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
 
         }
 
-        #pic1 {
-            margin: 50px 50px 0px 0px;
-        }
+        .image1 {background-image: url('../static/image_pics/uiwang.jpg');}
+        .image2 {background-image: url('../static/image_pics/songpa.png');}
 
-        #pic2 {
-            margin: 0px 0px 50px 50px;
+        .picture-box > .places > a > span {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 10px;
         }
 
     </style>
@@ -221,31 +248,48 @@
 <body>
     <section class="hero is-primary is-fullheight">
         <!-- Hero head: will stick at the top -->
-        <div class="hero-head" style="background-color:limegreen">
+        <!--<div class="hero-head" style="background-color:limegreen">-->
+        <div class="hero-head has-background-warning">
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item">
                             <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
-                            <p class="navbar-item" style="margin-left:5px">우리동네 TMI</p>
+                            <p class="navbar-item has-text-grey" style="margin-left:5px">우리동네 TMI</p>
                         </a>
                         <span class="navbar-burger" data-target="navbarMenuHeroA">
                 <span></span>
                 <span></span>
                 <span></span>
-              </span>
+                </span>
                     </div>
-                    <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div id="navbarMenuHeroA" class="navbar-menu has-text-grey">
                         <div class="navbar-end">
                             <a class="navbar-item is-active" href="/">
                                 Home
                             </a>
+                            <div class="navbar-item has-dropdown is-hoverable has-text-grey">
+                                <a class="navbar-link">
+                                    구경하기
+                                </a>
+
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item district" id="의왕" href="/map_list/의왕">
+                                        의왕
+                                    </a>
+                                    <a class="navbar-item district" id="송파" href="/map_list/송파">
+                                        송파
+                                    </a>
+                                </div>
+                            </div>
+                            <!--
                             <a class="navbar-item" href="/map_list/의왕">
                                 의왕 구경하기
                             </a>
                             <a class="navbar-item" href="/map_list/송파">
                                 송파 구경하기
                             </a>
+                            -->
                             <a class="navbar-item" href="/map_list/write">
                                 TMI 풀기
                             </a>
@@ -254,17 +298,12 @@
                                     Sign Out
                                 </button>
                             {% endif %}
-                            <!--<span class="navbar-item">
-                  <a class="button is-primary is-inverted">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Download</span>
-                  </a>
-                </span>-->
+
                         </div>
                     </div>
                 </div>
+                <span></span>
+                <span></span>
             </nav>
         </div>
 
@@ -272,12 +311,12 @@
         <div class="hero-body">
             <div class="container has-text-centered">
                 <section class="section body-flex">
-                    <div class="login-box">
+                    <div class="nonpicture-box">
                         <div id="title">
                             우리동네<br>
                             TMI
                         </div>
-                        <div class="container" style="top:100px">
+                        <div class="container login-box">
                             <div class="box" style="max-width: 480px;margin:auto">
                                 <article class="media">
                                     <div class="media-content">
@@ -357,8 +396,6 @@
                                                 </button>
                                             </nav>
                                         </div>
-
-
                                     </div>
                                 </article>
                             </div>
@@ -366,15 +403,14 @@
                         </div>
                     </div>
 
+                    <!--사진 링크-->
                     <div class="section picture-box">
-                        <figure class="image place-img is-1by1">
-                            <!--image크기 반응형에 따라 찌그러지는 현상 고치기-->
-                            <img class="is-rounded" id="pic1" src="https://bulma.io/images/placeholders/128x128.png">
-                            <img class="is-rounded" id="pic2" src="https://bulma.io/images/placeholders/128x128.png">
-                        </figure>
 
-                        <!--<figure class="image place-img is-1by1" id="pic2">
-                        </figure>-->
+                        <div class="places">
+                            <a class="image1" href="/map_list/의왕"> <span>의왕 👀</span></a>
+                            <a class="image2" href="/map_list/송파"> <span>송파 👀</span></a>
+                        </div>
+
                     </div>
                 </section>
 

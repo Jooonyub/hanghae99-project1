@@ -115,8 +115,8 @@ def posting():
         }
         db.placeinfo.insert_one(doc)
 
-        #return render_template("map_list.html")
-        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+        return render_template("map_list.html")
+        #return jsonify({"result": "success", 'msg': '포스팅 성공'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
@@ -129,8 +129,8 @@ def get_posts(district):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         all_lists = list(db.placeinfo.find({'districtname':district}, {'_id': False}))
 
-        #return render_template("map_list.html")
-        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists})
+        return render_template("map_list.html")
+        #return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
