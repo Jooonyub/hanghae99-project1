@@ -28,5 +28,6 @@ DB에는 두가지 데이터가 있어야해요!
   * districtname
   * placename
   * comment
+  * datetime
   * (geocode)
 
