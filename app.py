@@ -12,8 +12,8 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
 #일단은 로컬로 되는지 파악한 후에 AWS로 연결하기
-client = MongoClient('localhost', 27017)
-#client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
+#client = MongoClient('localhost', 27017)
+client = MongoClient('13.125.244.68 ', 27017, username="jooonyub", password="0218115q!")
 db = client.members
 
 #기본화면
@@ -90,35 +90,49 @@ def check_dup():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-#포스트 기능(form:장소이름, 코멘트)
-@app.route('/map_list/write', methods=['POST'])
+#포스트 작성(form:장소이름, 코멘트)
+@app.route('/write', methods=['GET'])
+def writepage():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # return redirect(url_for("home",user=payload['id']))
+        return render_template('write.html')
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("login"))
+
+@app.route('/write', methods=['POST'])
 def posting():
     token_receive = request.cookies.get('mytoken')
+    #if request.method == 'POST':
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
         # 포스팅하기
-        place_receive = request.form['placename_give']
+
+        placename_receive = request.form['placename_give']
         comment_receive = request.form['comment_give']
-        user_receive = payload['id']
+        username_receive = payload['id']
         #지역 이름은 dropdown으로!
-        districtname_receive = request.form['']
+        districtname_receive = request.form['districtname_give']
         now = datetime.now()
-        time = now.strftime("%Y년 %m월 %d일 %H:%M:%S")
+        posttime = now.strftime("%Y년 %m월 %d일 %H:%M:%S")
 
         doc = {
-            'user' : user_receive,
+            'username' : username_receive,
             'districtname' : districtname_receive,
-            'placename' : place_receive,
+            'placename' : placename_receive,
             'comment' : comment_receive,
-            'datetime' : time
+            'posttime' : posttime
         }
         db.placeinfo.insert_one(doc)
 
-        return render_template("map_list.html")
-        #return jsonify({"result": "success", 'msg': '포스팅 성공'})
+        #return redirect(url_for("home",user=payload['id']))
+        return jsonify({"result": "success", 'msg': '자랑해주셔서 감사합니다!'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+        return redirect(url_for("login"))
+    #else:
+        #return render_template('write.html')
 
 #포스트 목록 가져오기(장소이름, 코멘트, 장소 geodata, 사용자 ID)
 @app.route("/map_list/<district>", methods=['GET'])
@@ -129,7 +143,8 @@ def get_posts(district):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         all_lists = list(db.placeinfo.find({'districtname':district}, {'_id': False}))
 
-        return render_template("map_list.html")
+
+        return render_template("map_list.html", lists=all_lists, username=payload['id'])
         #return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))

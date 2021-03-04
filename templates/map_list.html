@@ -17,6 +17,10 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!--mystyle.css 링크-->
     <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <!--Google Font Awesome-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -24,15 +28,29 @@
 
 
     <style>
+        * {
+            font-family: 'Single Day', cursive;
+        }
         .hero-head {
-            margin-top: 20px;
+            /*margin-top: 20px;*/
         }
         .navbar-item {
             font-size: 20px;
             font-weight: bold;
         }
+        .hero-body {
+            padding-top:0px;
+        }
+
+        .secttion {
+            margin: auto;
+        }
         .body-flex {
             display:flex;
+            margin: auto;
+            vertical-align: middle;
+            background-color: white;
+
         }
         .map-box {
             flex:1;
@@ -40,15 +58,19 @@
         }
         .review-box {
             flex:1;
+            width: 360px;
             margin: auto;
             vertical-align: middle;
+            height: 600px;
+            overflow: scroll;
         }
 
         .map_and_list {
             position: relative;
             z-index: 1;
+            bottom: 50px;
 
-            border: blue solid thick;
+            /*border: blue solid thick;*/
             height: 640px;
         }
 
@@ -62,46 +84,110 @@
 
         }
 
+        .placeinfopost {
+
+            border-radius: 3px;
+            width: 100%;
+            height: 200px;
+        }
+        hr {
+            border: 1px solid;
+            background-color: lightgrey;
+        }
+
+        .cityobject {
+            height: 100%;
+            width: 200px;
+        }
+
+        .content > p {
+            text-align:left;
+            margin-top : 5px;
+        }
+
+        .content > p > span {
+            font-size: 20px;
+            margin: 0px 10px 0px 0px;
+        }
+
+        .placename {
+            font-size: 40px;
+            width: 40px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .comment {
+            font-size: 30px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .posttime {
+            font-weight: lighter;
+        }
+
+
+
+        .button {
+            margin: auto;
+            border-radius: 15px;
+            width: 350px;
+            height: 40px;
+            font-size: 30px
+        }
+        .buttons {
+            margin-bottom : 30px;
+        }
 
     </style>
 
     <script>
-        function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
-            alert('로그아웃되었습니다.')
-            /*setTimeout("location.reload()", 2000); 2초 후 새로고침*/
-            window.location.href="/login"
-        }
-
-        function makePlaceList() {
-            let placename = $('#placename').val()
-            let comment = $('#comment').val()
-            $.ajax({
-                tpye: "POST",
-                url: "/map_list",
-                data: {placename_give:placename, comment_give:comment},
-                success: function(response) {
-                    alert(response['msg']);
-                    window.location.reload();
-                }
-            })
-        }
-
+        /*
         function showPlaceList() {
             $.ajax({
                 tpye: "GET",
                 url: "/map_list",
                 data: {},
                 success: function(response) {
-                    let all_lists = response['all_places']
-                    for (let i = 0; i < all_lists.length; i++)
+                    let all_lists = response["all_lists"]
+                    for (i=0; i < all_lists.length ; i++)
                         let placename = all_lists[i]['placename']
                         let districtname = all_lists[i]['districtname']
                         let comment = all_lists[i]['comment']
-                        let user = all_lists[i]['user_id']
+                        let username = all_lists[i]['username']
+                        let posttime = all_lists[i]['posttime']
+
+                    let temp_html = `<div class="postunit">
+                                        <article class="media placeinfopost">
+                                                <div class="media-left">
+                                                    <figure class="image cityobject">
+                                                        <img src="../static/cityobject.jpg" alt="Image">
+                                                    </figure>
+                                                </div>
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <p>
+                                                            <span class="placename">placename</span> <span class="username">username</span>
+                                                            <span class="posttime">posttime</span>
+                                                            <br>
+                                                        <div class="comment">comment</div>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        <hr>
+                                    </div>`
+
+
+                    let all_lists = response['all_places']
+                    for (let i = 0; i < all_lists.length; i++)
+
                 }
             })
         }
+        */
+
 
         function sign_out() {
             $.removeCookie('mytoken', {path: '/'});
@@ -134,7 +220,7 @@
                             <a class="navbar-item" href="/">
                                 Home
                             </a>
-                            <div class="navbar-item is-active has-dropdown is-hoverable has-text-grey">
+                            <div class="navbar-item has-dropdown is-hoverable has-text-grey">
                                 <a class="navbar-link">
                                     구경하기
                                 </a>
@@ -148,23 +234,15 @@
                                     </a>
                                 </div>
                             </div>
-                            <!--
-                            <a class="navbar-item" href="/map_list/의왕">
-                                의왕 구경하기
-                            </a>
-                            <a class="navbar-item" href="/map_list/송파">
-                                송파 구경하기
-                            </a>
-                            -->
-                            <a class="navbar-item" href="/map_list/write">
+                            <a class="navbar-item " href="/write">
                                 TMI 풀기
                             </a>
 
                             <div class="navbar-end">
                                 <div class="navbar-item">
-                                    <div class="buttons" onclick="sign_out()">
+                                    <div class="buttons"  style="width: 200px; font-size:25px" onclick="sign_out()">
                                         <a class="button is-primary">
-                                            <strong>Sign Out</strong>
+                                            <strong style="margin-bottom:7px;">Sign Out</strong>
                                         </a>
                                     </div>
                                 </div>
@@ -185,247 +263,51 @@
                     안되면 테두리 두지 말고 페이지 내에서 시도해보기-->
                     <div class="map-box">
                         <h1>지도</h1>
-                        <div id="map_api"></div>
+                        <div id="map_api"><img src="../static/citymap_icon.jpg" alt="map_icon"></div>
                     </div>
 
                     <div class="review-box">
                         <h1>리뷰(Ajax 통해 불러오기)</h1>
-                        <div class="box" id="place_post">
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src=../static/image_pics/image_placeholder.png" alt="Image">
-                                    </figure>
+                        <div class="box" id="placeinfo_post">
+                            {% for list in lists %}
+                                <div class="postunit">
+                                    <article class="media placeinfopost">
+                                        <div class="media-left">
+                                            <figure class="image cityobject">
+                                                <img src="../static/cityobject.jpg" alt="Image">
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <span class="placename">{{ list['placename'] }}</span> <span
+                                                        class="username">{{ list['username'] }}</span>
+                                                    <span class="posttime">{{ list['posttime'] }}</span>
+                                                    <br>
+                                                <div class="comment">{{ list['comment'] }}</div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <hr>
                                 </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong id="user">아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            <div id="comment">코멘트</div>
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>아이디</strong>  <small>작성시</small>
-                                            <br>
-                                            코멘트
-                                        </p>
-                                    </div>
-                                </div>
-                            </article>
+
+                            {% endfor %}
                         </div>
                     </div>
                 </section>
-
+                <section class="section write-button">
+                    <!--<a type="button" href="/write"> 나만의 장소 소개하기 </a>-->
+                    <div class="buttons">
+                        <a class="button has-background-info-light" href="/write">
+                            <strong class="has-text-primary" style="font-weight: bold;" >나만의 장소 소개하러 가기</strong>
+                        </a>
+                    </div>
+                </section>
             </div>
         </div>
 
-        <!--입력창-->
-        <section class="section">
-            <article class="media">
-                <figure class="media-left" style="align-self: center">
-                    <a class="image is-32x32" href="#">
-                        <img class="is-rounded" src="{{ url_for('static', filename='profile_placeholder.png') }}">
-                    </a>
-                </figure>
-                <div class="media-content">
-                    <div class="field">
-                        <p class="control">
-                            <input id="input-post" class="input is-rounded" placeholder="당신만의 플레이스는 어디인가요?"
-                                   onclick='$("#modal-post").addClass("is-active")'></p>
-                    </div>
-                </div>
-            </article>
 
-            <!--modal 사용(for 장소 포스팅 용)-->
-            <div class="modal" id="modal-post">
-                <!--바깥쪽을 클릭해서 modal을 끄는 경우-->
-                <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
-                <div class="modal-content">
-                    <div class="box">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="field">
-                                    <p class="control">
-                                        <!--select-->
-                                        <div class="select">
-                                            <select>
-                                                <option id="의왕">의왕</option>
-                                                <option id="송파">송파</option>
-                                            </select>
-                                        </div>
-                                        <!--장소입력하기-->
-                                        <input type="text" id="placename" placeholder="당신만의 플레이스는 어디인가요?">
-
-                                        <!--텍스트에어리어 필드 -->
-                                        <textarea id="textarea-post comment" class="textarea"
-                                                  placeholder="당신만의 플레이스를 소개해주세요!"></textarea>
-                                    </p>
-                                </div>
-                                <nav class="level is-mobile">
-                                    <div class="level-left">
-
-                                    </div>
-                                    <div class="level-right">
-                                    <div class="level-item">
-                                            <!--포스팅버튼-->
-                                            <a class="button is-sparta" onclick="post()">포스팅하기</a>
-                                        </div>
-                                        <div class="level-item">
-                                            <!--취소버튼을 통해 끄는 경우-->
-                                            <!--취소버튼-->
-                                            <a class="button is-sparta is-outlined"
-                                               onclick='$("#modal-post").removeClass("is-active")'>취소</a>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <!--x버튼을 통해 끄는 경우-->
-                <button class="modal-close is-large" aria-label="close"
-                        onclick='$("#modal-post").removeClass("is-active")'></button>
-            </div>
-        </section>
-
-        <!--<div class="box">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="field">
-                                    <p class="control">
-
-                                        <textarea id="textarea-post" class="textarea"
-                                                  placeholder="당신만의 플레이스는 어디인가요?"></textarea>
-                                    </p>
-                                </div>
-                                <nav class="level is-mobile">
-                                    <div class="level-left">
-
-                                    </div>
-                                    <div class="level-right">
-                                    <div class="level-item">
-
-                                            <a class="button is-sparta" onclick="post()">포스팅하기</a>
-                                        </div>
-                                        <div class="level-item">
-
-                                            <a class="button is-sparta is-outlined"
-
-                                               onclick='$("#modal-post").removeClass("is-active")'>취소</a>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                        </article>
-                    </div>-->
-
-
-        <!-- Hero footer: will stick at the bottom -->
-        <!--<div class="hero-foot">
-            <nav class="tabs">
-                <div class="container">
-                    <ul>
-                        <li class="is-active"><a>Overview</a></li>
-                        <li><a>Modifiers</a></li>
-                        <li><a>Grid</a></li>
-                        <li><a>Elements</a></li>
-                        <li><a>Components</a></li>
-                        <li><a>Layout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>-->
     </section>
 </body>
 </html>

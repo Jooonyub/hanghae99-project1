@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="kr">
+<head>
+
+    <!-- Webpage Title -->
+    <title>Home | 우리동네 TMI</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--favicon-->
+    <link rel="shortcut icon" href="../static/tmi_favicon.png"/>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--mystyle.css 링크-->
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <!--Google Font Awesome-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+    <style>
+        * {
+            font-family: 'Single Day', cursive;
+        }
+        .hero-head {
+            /*margin-top: 20px;*/
+        }
+        .hero-body {
+            margin: auto;
+        }
+        .navbar-item {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        /*.body-flex {
+            display:flex;
+        }*/
+
+        .box {
+            margin: auto;
+            width: 1200px;
+
+        }
+        .review-box {
+
+            margin: auto;
+            vertical-align: middle;
+
+        }
+
+        .button {
+            margin: auto;
+            border-radius: 15px;
+            width: 350px;
+            height: 40px;
+            font-size: 30px
+        }
+
+        .imgarea {
+
+            max-width: 512px;
+            max-height: 512px;
+
+        }
+
+        .teduri {
+            border: solid 4px;
+            width: 100%;
+        }
+
+        label {
+            font-size: 23px;
+        }
+
+        input {
+            height: 40px;
+            width: 250px;
+        }
+
+    </style>
+
+    <script>
+
+        function makePlaceList() {
+            let districtname = $('#districtname_give').val()
+            let placename = $('#placename_give').val()
+            let comment = $('#comment_give').val()
+            $.ajax({
+                type: "POST",
+                url: "/write",
+                data: {districtname_give:districtname, placename_give:placename, comment_give:comment},
+                success: function(response) {
+                    alert(response['msg']);
+                    window.location.href='/';
+                }
+            })
+        }
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃되었습니다.');
+            /*setTimeout("location.reload()", 2000); 2초 후 새로고침*/
+            window.location.href="/login";
+        }
+    </script>
+
+</head>
+<body>
+   <section class="hero is-primary is-fullheight">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head has-background-warning">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
+                            <p class="navbar-item has-text-grey" style="margin-left:5px">우리동네 TMI</p>
+                        </a>
+                        <span class="navbar-burger" data-target="navbarMenuHeroA">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+                    </div>
+                    <div id="navbarMenuHeroA" class="navbar-menu has-text-grey">
+                        <div class="navbar-end">
+                            <a class="navbar-item" href="/">
+                                Home
+                            </a>
+                            <div class="navbar-item has-dropdown is-hoverable has-text-grey">
+                                <a class="navbar-link">
+                                    구경하기
+                                </a>
+
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item district" id="의왕" href="/map_list/의왕">
+                                        의왕
+                                    </a>
+                                    <a class="navbar-item district" id="송파" href="/map_list/송파">
+                                        송파
+                                    </a>
+                                </div>
+                            </div>
+
+                            <a class="navbar-item is-active" href="write.html">
+                                TMI 풀기
+                            </a>
+
+                            <div class="navbar-end">
+                                <div class="navbar-item">
+                                    <div class="buttons" style="width: 200px; font-size:25px" onclick="sign_out()">
+                                        <a class="button is-primary">
+                                            <strong style="margin-bottom:7px;">Sign Out</strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <section class="section">
+                <div class="box">
+
+                    <article class="media">
+                        <figure class="media-left imgarea">
+                            <p class="image">
+                                <img src="../static/image_pics/image_placeholder.png">
+                            </p>
+                        </figure>
+                        <div class="media-content review-box">
+                            <div class="box teduri">
+                                <div class="field">
+                                <p class="control">
+                                    <!--
+                                    <div class="buttons has-addons">
+                                        <button class="button is-success is-selected">의왕</button>
+                                        <button class="button">송파</button>
+                                    </div>
+                                    -->
+                                    <p>
+                                    <label for="districtname_give">지역입력</label>
+                                    <input type="text" name="districtname_give" id="districtname_give" placeholder="지역을 입력해주세요(의왕 or 송파)">
+                                    </p>
+                                    <br>
+                                    <p>
+                                    <label for="placename_give">장소입력</label>
+                                    <input type="text" name="placename_give" id="placename_give" placeholder="당신의 플레이스는 어디인가요?!">
+                                    </p>
+                                    <br>
+                                    <p>
+                                    <label for="comment_give">소개</label>
+                                    <textarea class="textarea" name="comment_give" id="comment_give" placeholder="당신의 플레이스를 소개주세요!"></textarea>
+                                    </p>
+
+                                </p>
+                            </div>
+                                <nav class="level">
+                                    <div class="level-item">
+                                        <button type="button" class="button is-info" style="width:200px" onclick="makePlaceList()"> 자랑하기😎 </button>
+                                    </div>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+        </div>
+    </section>
+</body>
+
+</html>

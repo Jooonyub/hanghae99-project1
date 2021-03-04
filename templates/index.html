@@ -17,12 +17,18 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!--mystyle.css 링크-->
     <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <!--Google Font Awesome-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <style>
+        * {
+            font-family: 'Single Day', cursive;
+        }
         .hero-head {
             /*height: 60px;*/
         }
@@ -94,6 +100,14 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        .button {
+            margin: auto;
+            border-radius: 15px;
+            width: 350px;
+            height: 40px;
+            font-size: 30px
+        }
     </style>
 
 
@@ -154,15 +168,15 @@
                             </a>
                             -->
 
-                            <a class="navbar-item" href="/map_list/write">
+                            <a class="navbar-item" href="/write">
                                 TMI 풀기
                             </a>
                             {% if user %}
                                 <div class="navbar-end">
                                     <div class="navbar-item">
-                                        <div class="buttons" onclick="sign_out()">
+                                        <div class="buttons" style="width: 200px; font-size:25px" onclick="sign_out()">
                                             <a class="button is-primary">
-                                                <strong>Sign Out</strong>
+                                                <strong style="margin-bottom:7px;">Sign Out</strong>
                                             </a>
                                         </div>
                                     </div>
