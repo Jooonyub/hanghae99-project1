@@ -24,7 +24,7 @@ DB에는 두가지 데이터가 있어야해요!
 데이터 이름: 
   [placeinfo]
 필요한 구성요소
-  * user_id
+  * username
   * districtname
   * placename
   * comment
