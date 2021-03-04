@@ -104,7 +104,7 @@
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="/">
                             <img class="icon" src="/static/tmi_favicon.png" alt="Logo">
                             <p class="navbar-item" style="margin-left:5px">우리동네 TMI</p>
                         </a>
@@ -119,10 +119,13 @@
                             <a class="navbar-item is-active" href="/">
                                 Home
                             </a>
-                            <a class="navbar-item" href="/map_list">
-                                구경하기
+                            <a class="navbar-item" href="/map_list/의왕">
+                                의왕 구경하기
                             </a>
-                            <a class="navbar-item" href="/map_list">
+                            <a class="navbar-item" href="/map_list/송파">
+                                송파 구경하기
+                            </a>
+                            <a class="navbar-item" href="/map_list/write">
                                 TMI 풀기
                             </a>
                             {% if user %}
@@ -163,8 +166,8 @@
                         <figure class="image place-img">
                             <!--image크기 반응형에 따라 찌그러지는 현상 고치기-->
                             <!--이미지 src 넣기-->
-                            <a href="/map_list/uiwang" class="is-rounded" id="pic1" src="../static/image_pics/uiwang.jpg">의왕</a>
-                            <a href="/map_list/songpa" class="is-rounded" id="pic2" src="../static/image_pics/songpa.jpg">송파</a>
+                            <a href="/map_list/의왕" class="is-rounded" id="pic1" src="../static/image_pics/uiwang.jpg">의왕</a>
+                            <a href="/map_list/송파" class="is-rounded" id="pic2" src="../static/image_pics/songpa.jpg">송파</a>
                             <!--
                             <img class="is-rounded" id="pic1" src="https://bulma.io/images/placeholders/128x128.png">
                             <img class="is-rounded" id="pic2" src="https://bulma.io/images/placeholders/128x128.png">

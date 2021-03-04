@@ -64,13 +64,20 @@
     </style>
 
     <script>
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃되었습니다.')
+            /*setTimeout("location.reload()", 2000); 2초 후 새로고침*/
+            window.location.href="/login"
+        }
+
         function makePlaceList() {
-            let place = $('#placename').val()
+            let placename = $('#placename').val()
             let comment = $('#comment').val()
             $.ajax({
                 tpye: "POST",
                 url: "/map_list",
-                data: {placename_give:place, comment_give:comment},
+                data: {placename_give:placename, comment_give:comment},
                 success: function(response) {
                     alert(response['msg']);
                     window.location.reload();
@@ -118,17 +125,19 @@
                             <a class="navbar-item is-active" href="/">
                                 Home
                             </a>
-                            <a class="navbar-item" href="/map_list">
-                                구경하기
+                            <a class="navbar-item" href="/map_list/의왕">
+                                의왕 구경하기
                             </a>
-                            <a class="navbar-item" href="/map_list">
+                            <a class="navbar-item" href="/map_list/송파">
+                                송파 구경하기
+                            </a>
+                            <a class="navbar-item" href="/map_list/write">
                                 TMI 풀기
                             </a>
-                            {% if user %}
-                                <button class="navbar-item button sign_out" style="background-color:lightgreen" onclick="sign_out()">
-                                    Sign Out
-                                </button>
-                            {% endif %}
+                            <button class="navbar-item button sign_out" style="background-color:lightgreen" onclick="sign_out()">
+                                Sign Out
+                            </button>
+
                             <!--<span class="navbar-item">
                   <a class="button is-primary is-inverted">
                     <span class="icon">
@@ -304,9 +313,19 @@
                             <div class="media-content">
                                 <div class="field">
                                     <p class="control">
+                                        <!--select-->
+                                        <div class="select">
+                                            <select>
+                                                <option id="의왕">의왕</option>
+                                                <option id="송파">송파</option>
+                                            </select>
+                                        </div>
+                                        <!--장소입력하기-->
+                                        <input type="text" id="placename" placeholder="당신만의 플레이스는 어디인가요?">
+
                                         <!--텍스트에어리어 필드 -->
-                                        <textarea id="textarea-post" class="textarea"
-                                                  placeholder="당신만의 플레이스는 어디인가요?"></textarea>
+                                        <textarea id="textarea-post comment" class="textarea"
+                                                  placeholder="당신만의 플레이스를 소개해주세요!"></textarea>
                                     </p>
                                 </div>
                                 <nav class="level is-mobile">
@@ -320,8 +339,8 @@
                                         </div>
                                         <div class="level-item">
                                             <!--취소버튼을 통해 끄는 경우-->
+                                            <!--취소버튼-->
                                             <a class="button is-sparta is-outlined"
-                                               <!--취소버튼-->
                                                onclick='$("#modal-post").removeClass("is-active")'>취소</a>
                                         </div>
                                     </div>

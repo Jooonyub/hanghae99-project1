@@ -101,17 +101,21 @@ def posting():
         place_receive = request.form['placename_give']
         comment_receive = request.form['comment_give']
         user_receive = payload['id']
-        #districtname_receive = 지역이름 어떻게 가져올지 생각하
+        #지역 이름은 dropdown으로!
+        districtname_receive = request.form['']
+        now = datetime.now()
+        time = now.strftime("%Y년 %m월 %d일 %H:%M:%S")
 
         doc = {
             'user' : user_receive,
             'districtname' : districtname_receive,
             'placename' : place_receive,
             'comment' : comment_receive,
-            'datetime' : datetime_receive
+            'datetime' : time
         }
         db.placeinfo.insert_one(doc)
 
+        #return render_template("map_list.html")
         return jsonify({"result": "success", 'msg': '포스팅 성공'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
@@ -125,7 +129,8 @@ def get_posts(district):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         all_lists = list(db.placeinfo.find({'districtname':district}, {'_id': False}))
 
-        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists, 'datetime':datetime})
+        #return render_template("map_list.html")
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "user":payload["id"], "all_lists":all_lists})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
